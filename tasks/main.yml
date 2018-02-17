@@ -17,7 +17,7 @@
         - 'libcurl4-openssl-dev'
         - 'libz-dev'
 
-  - name: Install build tools
+  - name: Install libtool-bin
     apt: name={{ item }} state=latest
     with_items:
         - 'libtool-bin'
@@ -35,7 +35,7 @@
           force=yes
     become: no
 
-  - name: build drachtio-server (this will take a while)
+  - name: build drachtio-server
     shell: ./bootstrap.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
     become: no
     args:
