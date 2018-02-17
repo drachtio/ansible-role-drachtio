@@ -13,10 +13,15 @@
         - 'autoconf'
         - 'curl'
         - 'libtool'
-        - 'libtool-bin'
         - 'libssl-dev'
         - 'libcurl4-openssl-dev'
         - 'libz-dev'
+
+  - name: Install build tools
+    apt: name={{ item }} state=latest
+    with_items:
+        - 'libtool-bin'
+    when: ansible_distribution == 'Debian'
 
   - name: make source directory writeable
     file: path=/usr/local/src state=directory mode=0777
