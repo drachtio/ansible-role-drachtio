@@ -1,0 +1,50 @@
+<drachtio>
+
+    <!-- udp port to listen on for client connections and shared secret used to authenticate clients -->
+    <admin port="{{drachtioAdminPort}}" secret="{{drachtioSecret}}">{{ hostvars[inventory_hostname]['ansible_' + drachtioAdminInterface]['ipv4']['address'] }}</admin>
+
+    <request-handlers>
+       <request-handler sip-method="*" http-method="GET">{{ drachtioHttpHandler }}</request-handler>
+    </request-handlers>
+
+    <!-- sip configuration -->
+    <sip>
+        <contacts>
+            <contact external-ip="{{ inventory_hostname }}" local-net="{{ local_net_cidr }}" dns-names="">sip:{{ hostvars[inventory_hostname]['ansible_' + drachtioSipInterface]['ipv4']['address'] }};transport=udp,tcp</contact>
+        </contacts>
+
+
+        <spammers action="reject" tcp-action="discard">
+            <header name="User-Agent">
+                <value>sip-cli</value>
+                <value>sipcli</value>
+                <value>friendly-scanner</value>
+            </header>
+            <header>
+                <value>sipvicious</value>
+            </header>
+        </spammers>
+
+    </sip>
+
+    <cdrs>true</cdrs>
+            
+    <!-- logging configuration -->
+    <logging>
+
+        <file>
+            <name>{{drachtioLogFileDirectory}}/{{drachtioLogFilePattern}}</name>
+            <archive>{{drachtioLogArchiveDirectory}}</archive>
+            <size>{{drachtioLogFileSize}}</size>
+             <maxSize>{{drachtioLogFileMaxSize}}</maxSize>
+            <auto-flush>true</auto-flush>
+        </file>
+
+        <!-- sofia internal log level, from 0 (minimal) to 9 (verbose) -->
+        <sofia-loglevel>3</sofia-loglevel>
+        
+        <!-- notice, warning, error, info, debug.  Default: info -->
+        <loglevel>info</loglevel>
+    </logging>
+        
+</drachtio>

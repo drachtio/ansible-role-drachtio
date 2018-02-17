@@ -1,0 +1,65 @@
+--- 
+  - name: Install build tools
+    apt: name={{ item }} state=latest
+    with_items:
+        - 'gcc'
+        - 'g++'
+        - 'make'
+        - 'build-essential'
+        - 'git'
+        - 'autoconf'
+        - 'curl'
+        - 'libtool'
+        - 'libtool-bin'
+        - 'libssl-dev'
+        - 'libcurl4-openssl-dev'
+        - 'libz-dev'
+
+  - name: make source directory writeable
+    file: path=/usr/local/src state=directory mode=0777
+
+  - name: check out drachtio-server 
+    git: repo=https://github.com/davehorton/drachtio-server.git
+          dest=/usr/local/src/drachtio-server
+          version={{drachtioBranch}}
+          depth=50
+          accept_hostkey=yes
+          force=yes
+    become: no
+
+  - name: build drachtio-server (this will take a while)
+    shell: ./bootstrap.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
+    become: no
+    args:
+      executable: /bin/bash
+      chdir: /usr/local/src/drachtio-server/
+      creates: /usr/local/src/drachtio-server/build/drachtio
+    notify: restart drachtio
+
+  - name: Create drachtio log directories
+    file: path="{{ item }}" state=directory
+    with_items:
+      - "{{ drachtioLogFileDirectory }}"
+      - "{{ drachtioLogArchiveDirectory }}"
+
+  - name: Create drachtio config file
+    template:
+      src: drachtio.conf.xml.j2
+      dest: "/etc/drachtio.conf.xml"
+      mode: 0644
+      owner: root
+      group: root
+    notify: restart drachtio
+
+  - name: Create drachtio systemd script
+    copy: 
+      src: drachtio-systemd-script
+      dest: /etc/systemd/system/drachtio.service
+      mode: 0744
+      owner: root
+      group: root
+    notify: restart drachtio
+
+  - name: systemctl daemon-reload
+    shell: systemctl daemon-reload
+

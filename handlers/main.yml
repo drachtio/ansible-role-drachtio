@@ -1,0 +1,3 @@
+---
+- name: restart drachtio
+  service: name=drachtio enabled=yes state=restarted
