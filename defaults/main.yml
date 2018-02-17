@@ -8,4 +8,4 @@ drachtioLogArchiveDirectory: /var/log/drachtio/archive
 drachtioLogFileSize: 50
 drachtioLogFileMaxSize: 10
 drachtioLogFileDirectory: /var/log/drachtio
-drachtioBranch: develop
+drachtioBranch: master

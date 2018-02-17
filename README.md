@@ -4,16 +4,63 @@ This is an ansible role for installing a [drachtio server](https://github.com/da
 
 ## Role variables
 
-The sip port(s) that drachtio is listening on
+Available variables are listed below, along with default values (see defaults/main.yml):
+
 ```
-drachtio_ports: "5060"  # use comma-separated if multiple ports
+drachtioAdminPort: 9022
 ```
+The TCP port that the drachtio server will listen on for client (app) connections.
+
+```
+drachtioSecret: cymru
+```
+The shared secret used by clients to authenticate.
+
+```
+drachtioSipInterface: eth0
+```
+The network device on which to listen for sip messages
+
+```
+drachtioAdminInterface: eth0
+```
+The network device on which to listen for client (app) connections.
+
+```
+drachtioLogFilePattern: drachtio.log
+```
+The name, or pattern, of the log file to write.  
+
+```
+drachtioLogFileDirectory: /var/log/drachtio
+```
+The directory to write log files into.
+
+```
+drachtioLogArchiveDirectory: /var/log/drachtio/archive
+```
+The directory into which to archive log files
+
+```
+drachtioLogFileSize: 50
+```
+The size of the log file which, when reached, will cause the file to be rotated.  Note that log files are also rotated on a daily basis.
+
+```
+drachtioLogFileMaxSize: 10
+```
+
+```
+drachtioBranch: master
+```
+The github branch to build.
+
 
 ## Example playbook
 ```
 ---
 - hosts: all
   roles:
-    - ansible-role-fail2ban-drachtio
+    - ansible-role-drachtio
   become: yes
 ```
