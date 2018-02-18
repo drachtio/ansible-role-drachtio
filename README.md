@@ -1,6 +1,6 @@
 # ansible-role-drachtio [![Build Status](https://secure.travis-ci.org/davehorton/ansible-role-drachtio.png)](http://travis-ci.org/davehorton/ansible-role-drachtio)
 
-This is an ansible role for installing a [drachtio server](https://github.com/davehorton/drachtio-server). 
+This is an ansible role for building a [drachtio server](https://github.com/davehorton/drachtio-server). 
 
 ## Role variables
 
