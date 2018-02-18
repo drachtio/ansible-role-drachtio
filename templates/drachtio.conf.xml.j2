@@ -3,9 +3,11 @@
     <!-- udp port to listen on for client connections and shared secret used to authenticate clients -->
     <admin port="{{drachtioAdminPort}}" secret="{{drachtioSecret}}">{{ hostvars[inventory_hostname]['ansible_' + drachtioAdminInterface]['ipv4']['address'] }}</admin>
 
+    <!--
     <request-handlers>
-       <request-handler sip-method="*" http-method="GET">{{ drachtioHttpHandler }}</request-handler>
+       <request-handler sip-method="*" http-method="GET">127.0.0.1:3001</request-handler>
     </request-handlers>
+    -->
 
     <!-- sip configuration -->
     <sip>
