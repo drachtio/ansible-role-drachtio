@@ -22,5 +22,3 @@ script:
   - while sleep 9m; do echo "=====[ $SECONDS seconds still running ]====="; done &
   - ansible-playbook tests/test.yml -i tests/inventory --connection=local --become
   - kill %1
-
-  - systemctl status drachtio
