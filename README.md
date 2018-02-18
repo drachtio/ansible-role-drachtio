@@ -1,4 +1,4 @@
-# ansible-role-drachtio
+# ansible-role-drachtio [![Build Status](https://secure.travis-ci.org/davehorton/ansible-role-drachtio.png)](http://travis-ci.org/davehorton/ansible-role-drachtio)
 
 This is an ansible role for installing a [drachtio server](https://github.com/davehorton/drachtio-server). 
 
@@ -42,13 +42,14 @@ drachtioLogArchiveDirectory: /var/log/drachtio/archive
 The directory into which to archive log files
 
 ```
-drachtioLogFileSize: 50
+drachtioLogFileSize: 5
 ```
-The size of the log file which, when reached, will cause the file to be rotated.  Note that log files are also rotated on a daily basis.
+The size of the log file, in GiB, which, when reached, will cause the file to be rotated.  Note that log files are also rotated on a daily basis.
 
 ```
 drachtioLogFileMaxSize: 10
 ```
+Specifies the maximum total size, in GiB, of current and archived files will keep before deleting archived files.
 
 ```
 drachtioBranch: master

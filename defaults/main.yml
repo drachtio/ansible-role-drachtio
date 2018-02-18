@@ -5,7 +5,8 @@ drachtioSipInterface: eth0
 drachtioAdminInterface: eth0
 drachtioLogFilePattern: drachtio.log
 drachtioLogArchiveDirectory: /var/log/drachtio/archive
-drachtioLogFileSize: 50
+drachtioLogFileSize: 5
 drachtioLogFileMaxSize: 10
 drachtioLogFileDirectory: /var/log/drachtio
+drachtioHttpHandler: 127.0.0.1:3000
 drachtioBranch: master

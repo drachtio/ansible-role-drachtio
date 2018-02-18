@@ -5,14 +5,14 @@
 
     <!--
     <request-handlers>
-       <request-handler sip-method="*" http-method="GET">127.0.0.1:3001</request-handler>
+       <request-handler sip-method="*" http-method="GET">{{ drachtioHttpHandler }}</request-handler>
     </request-handlers>
     -->
 
     <!-- sip configuration -->
     <sip>
         <contacts>
-            <contact external-ip="{{ inventory_hostname }}" local-net="{{ local_net_cidr }}" dns-names="">sip:{{ hostvars[inventory_hostname]['ansible_' + drachtioSipInterface]['ipv4']['address'] }};transport=udp,tcp</contact>
+            <contact>sip:{{ hostvars[inventory_hostname]['ansible_' + drachtioSipInterface]['ipv4']['address'] }};transport=udp,tcp</contact>
         </contacts>
 
 
@@ -38,7 +38,7 @@
             <name>{{drachtioLogFileDirectory}}/{{drachtioLogFilePattern}}</name>
             <archive>{{drachtioLogArchiveDirectory}}</archive>
             <size>{{drachtioLogFileSize}}</size>
-             <maxSize>{{drachtioLogFileMaxSize}}</maxSize>
+            <maxSize>{{drachtioLogFileMaxSize}}</maxSize>
             <auto-flush>true</auto-flush>
         </file>
 

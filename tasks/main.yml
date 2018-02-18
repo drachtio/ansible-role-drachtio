@@ -34,6 +34,7 @@
           accept_hostkey=yes
           force=yes
     become: no
+    register: checkout
 
   - name: build drachtio-server
     shell: ./bootstrap.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
@@ -43,12 +44,14 @@
       chdir: /usr/local/src/drachtio-server/
       creates: /usr/local/src/drachtio-server/build/drachtio
     notify: restart drachtio
+    when: checkout.changed
 
   - name: Create drachtio log directories
     file: path="{{ item }}" state=directory
     with_items:
       - "{{ drachtioLogFileDirectory }}"
       - "{{ drachtioLogArchiveDirectory }}"
+    when: checkout.changed
 
   - name: Create drachtio config file
     template:
@@ -58,6 +61,7 @@
       owner: root
       group: root
     notify: restart drachtio
+    when: checkout.changed
 
   - name: Create drachtio systemd script
     copy: 
@@ -67,9 +71,10 @@
       owner: root
       group: root
     notify: restart drachtio
-    when: ansible_service_mgr == 'systemd'
+    when: ansible_service_mgr == 'systemd' and checkout.changed
 
   - name: systemctl daemon-reload
     shell: systemctl daemon-reload
-    when: ansible_service_mgr == 'systemd'
+    when: ansible_service_mgr == 'systemd' and checkout.changed
+
 
