@@ -1,3 +1,4 @@
 ---
 - name: restart drachtio
   service: name=drachtio enabled=yes state=restarted
+  when: ansible_service_mgr == 'systemd'

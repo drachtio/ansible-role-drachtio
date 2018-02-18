@@ -67,7 +67,9 @@
       owner: root
       group: root
     notify: restart drachtio
+    when: ansible_service_mgr == 'systemd'
 
   - name: systemctl daemon-reload
     shell: systemctl daemon-reload
+    when: ansible_service_mgr == 'systemd'
 
