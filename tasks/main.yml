@@ -22,6 +22,7 @@
     with_items:
         - 'libtool-bin'
     when: ansible_distribution == 'Debian'
+    ignore_errors: yes          
 
   - name: make source directory writeable
     file: path=/usr/local/src state=directory mode=0777
