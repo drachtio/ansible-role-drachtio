@@ -1,26 +1,24 @@
 --- 
   - name: Update apt-cache
     apt: update_cache=yes 
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
   - name: Install build tools
-    apt: name={{ item }} state=latest
-    with_items:
-        - 'gcc'
-        - 'g++'
-        - 'make'
-        - 'build-essential'
-        - 'git'
-        - 'autoconf'
-        - 'curl'
-        - 'libtool'
-        - 'libssl-dev'
-        - 'libcurl4-openssl-dev'
-        - 'libz-dev'
+    apt: 
+        name: ['gcc', 'g++', 'make', 'build-essential', 'git', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
+        state: latest
+    when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+
+  - name: Install build tools
+    apt: 
+        name: ['gcc', 'g++', 'make', 'build-essential', 'git', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
+        state: latest
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
   - name: Install libtool-bin
-    apt: name={{ item }} state=latest
-    with_items:
-        - 'libtool-bin'
+    apt: 
+      name: libtool-bin 
+      state: latest
     when: ansible_distribution == 'Debian'
     ignore_errors: yes          
 
