@@ -14,11 +14,7 @@
 
   - name: Install build tools
     apt: 
-<<<<<<< HEAD
         name: ['gcc', 'g++', 'make', 'cmake', 'build-essential', 'git', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
-=======
-        name: ['gcc', 'g++', 'make', 'build-essential', 'git', 'cmake', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
->>>>>>> minor build and config changes
         state: latest
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
