@@ -45,7 +45,7 @@
     register: checkout
 
   - name: build drachtio-server
-    shell: ./bootstrap.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
+    shell: ./autogen.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
     become: no
     args:
       executable: /bin/bash
