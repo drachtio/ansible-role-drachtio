@@ -20,7 +20,7 @@
 
   - name: Install build tools
     apt: 
-        name: ['gcc', 'g++', 'make', 'build-essential', 'git', 'cmake', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
+        name: ['gcc', 'g++', 'make', 'cmake', 'build-essential', 'git', 'cmake', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
         state: latest
     when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
