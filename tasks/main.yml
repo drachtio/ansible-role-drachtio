@@ -1,9 +1,9 @@
 --- 
-  - name: Update apt-cache
+  - name: Debian family - Update apt-cache
     apt: update_cache=yes 
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-  - name: copy /etc/vimrc.local to allow cut and paste in vi
+  - name: Debian family - copy /etc/vimrc.local to allow cut and paste in vi
     copy:
       src: vimrc.local
       dest: /etc/vim/vimrc.local
@@ -12,19 +12,53 @@
       group: root
     when: ansible_distribution == 'Debian' and ansible_distribution_release != 'jessie'
 
-  - name: Install build tools
+  - name: Debian family - Install build tools
     apt: 
         name: ['gcc', 'g++', 'make', 'cmake', 'build-essential', 'git', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
         state: latest
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-  - name: Install build tools
-    apt: 
-        name: ['gcc', 'g++', 'make', 'cmake', 'build-essential', 'git', 'cmake', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 'libz-dev']
+  - name: CentOS family - Install build tools
+    yum: 
+        name: ['gcc-c++', 'make', 'cmake3', 'git', 'cmake', 'autoconf', 'curl', 'libcurl-devel', 'libtool', 'openssl-devel', 'zlib-devel', 'boost-devel', 'centos-release-scl-rh']
         state: latest
     when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
-  - name: Install libtool-bin
+  - name: CentOS family - Install GC 6.x
+    yum:
+      name: 'devtoolset-6-gcc-c++'
+      state: latest
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: CentOS family - Set cmake3 as default
+    alternatives:
+      link: /usr/local/bin/cmake
+      name: cmake
+      path: /usr/bin/cmake3
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: CentOS family - Set ctest3 as default
+    alternatives:
+      link: /usr/local/bin/ctest
+      name: ctest
+      path: /usr/bin/ctest3
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: CentOS family - Set cpack3 as default
+    alternatives:
+      link: /usr/local/bin/cpack
+      name: cpack
+      path: /usr/bin/cpack3
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: CentOS family - Set ccmake3 as default
+    alternatives:
+      link: /usr/local/bin/ccmake
+      name: ccmake
+      path: /usr/bin/ccmake3
+    when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: Debian family - Install libtool-bin
     apt: 
       name: libtool-bin 
       state: latest
@@ -44,7 +78,19 @@
     become: no
     register: checkout
 
-  - name: build drachtio-server
+  - name: CentOS family - build drachtio-server with devtoolset-6
+    shell: source scl_source enable devtoolset-6 && ./autogen.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
+    become: no
+    args:
+      executable: /bin/bash
+      chdir: /usr/local/src/drachtio-server/
+      creates: /usr/local/src/drachtio-server/build/drachtio
+    notify: restart drachtio
+    when: 
+      - checkout.changed
+      - ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
+
+  - name: Debian family - build drachtio-server
     shell: ./autogen.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
     become: no
     args:
@@ -52,7 +98,9 @@
       chdir: /usr/local/src/drachtio-server/
       creates: /usr/local/src/drachtio-server/build/drachtio
     notify: restart drachtio
-    when: checkout.changed
+    when: 
+      - checkout.changed
+      - ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
   - name: Create drachtio log directories
     file: path="{{ item }}" state=directory
