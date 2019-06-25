@@ -45,7 +45,7 @@
     register: checkout
 
   - name: build drachtio-server
-    shell: ./autogen.sh && mkdir build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
+    shell: ./autogen.sh && mkdir -p build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
     become: no
     args:
       executable: /bin/bash
@@ -71,11 +71,11 @@
     notify: restart drachtio
     when: checkout.changed
 
-  - name: Create drachtio systemd script
-    copy: 
-      src: drachtio-systemd-script
+  - name: Create systemd unit file
+    template:
+      src: drachtio-systemd-script.j2
       dest: /etc/systemd/system/drachtio.service
-      mode: 0744
+      mode: 0644
       owner: root
       group: root
     notify: restart drachtio
