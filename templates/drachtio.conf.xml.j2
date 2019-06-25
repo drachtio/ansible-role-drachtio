@@ -1,7 +1,7 @@
 <drachtio>
 
     <!-- udp port to listen on for client connections and shared secret used to authenticate clients -->
-    <admin port="{{drachtioAdminPort}}" secret="{{drachtioSecret}}">{{ hostvars[inventory_hostname]['ansible_' + drachtioAdminInterface]['ipv4']['address'] }}</admin>
+    <admin port="{{drachtioAdminPort}}" secret="{{drachtioSecret}}">{{ ansible_default_ipv4.address }}</admin>
 
 <!--
     <request-handlers>
@@ -12,7 +12,7 @@
     <!-- sip configuration -->
     <sip>
         <contacts>
-            <contact>sip:{{ hostvars[inventory_hostname]['ansible_' + drachtioSipInterface]['ipv4']['address'] }};transport=udp,tcp</contact>
+            <contact>sip:{{ ansible_default_ipv4.address }};transport=udp,tcp</contact>
         </contacts>
 
 
@@ -28,6 +28,15 @@
         </spammers>
 
         <udp-mtu>4096</udp-mtu>
+
+        <!-- if you want to terminate SIP over TLS connections (example shows letsencrypt.org typical file locations, but use any CA)
+        <tls>
+                <key-file>/etc/letsencrypt/live/yourdomain/privkey.pem</key-file>
+                <cert-file>/etc/letsencrypt/live/yourdomain/cert.pem</cert-file>
+                <chain-file>/etc/letsencrypt/live/yourdomain/chain.pem</chain-file>
+                <dh-param>/var/local/dh4096.pem</dh-param>
+        </tls>
+        -->
 
     </sip>
 
