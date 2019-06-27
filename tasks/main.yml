@@ -85,4 +85,7 @@
     shell: systemctl daemon-reload
     when: ansible_service_mgr == 'systemd' and checkout.changed
 
+  - name: remove source code
+    shell: rm -Rf /usr/local/src/*
+    when: remove_source|bool
 

@@ -11,3 +11,4 @@ drachtioLogFileDirectory: /var/log/drachtio
 drachtioHttpHandler: 127.0.0.1:3000
 drachtioBranch: develop
 cloud_provider: none
+remove_source: false
