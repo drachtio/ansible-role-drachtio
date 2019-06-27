@@ -86,7 +86,8 @@
     when: ansible_service_mgr == 'systemd' and checkout.changed
 
   - name: remove source code
-    shell: rm -Rf /usr/local/src/*
-    warn: false
+    file: 
+      path: /usr/local/src/drachtio-server
+      state: absent
     when: remove_source|bool
 
