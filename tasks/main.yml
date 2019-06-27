@@ -87,5 +87,6 @@
 
   - name: remove source code
     shell: rm -Rf /usr/local/src/*
+    warn: false
     when: remove_source|bool
 
