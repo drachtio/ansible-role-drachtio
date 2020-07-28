@@ -9,6 +9,6 @@ drachtioLogFileSize: 30
 drachtioLogFileMaxSize: 1000
 drachtioLogFileDirectory: /var/log/drachtio
 drachtioHttpHandler: 127.0.0.1:3000
-drachtioBranch: v0.8.4
+drachtioBranch: v0.8.6
 cloud_provider: none
 remove_source: false
