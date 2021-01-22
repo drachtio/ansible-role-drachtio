@@ -46,8 +46,8 @@
     register: checkout
 
   - name: build drachtio-server
-    shell: ./autogen.sh && mkdir -p build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && sudo make install
-    become: no
+    shell: ./autogen.sh && mkdir -p build && cd $_ && ../configure CPPFLAGS='-DNDEBUG' && make && make install
+    become: yes
     args:
       executable: /bin/bash
       chdir: /usr/local/src/drachtio-server/
