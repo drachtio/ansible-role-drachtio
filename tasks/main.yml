@@ -3,15 +3,6 @@
     apt: update_cache=yes 
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
-  - name: copy /etc/vimrc.local to allow cut and paste in vi
-    copy:
-      src: vimrc.local
-      dest: /etc/vim/vimrc.local
-      mode: 0644
-      owner: root
-      group: root
-    when: ansible_distribution == 'Debian' and ansible_distribution_release != 'jessie'
-
   - name: Install build tools
     apt: 
         name: ['gcc', 'g++', 'make', 'cmake', 'build-essential', 'git', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 
