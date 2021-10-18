@@ -6,7 +6,7 @@
   - name: Install build tools
     apt: 
         name: ['gcc', 'g++', 'make', 'cmake', 'build-essential', 'git', 'autoconf', 'curl', 'libtool', 'libssl-dev', 'libcurl4-openssl-dev', 
-          'libz-dev', 'systemd-coredump', 'liblz4-tool']
+          'libz-dev', 'systemd-coredump', 'liblz4-tool', 'automake']
         state: latest
     when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
 
